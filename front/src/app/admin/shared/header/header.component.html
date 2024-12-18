@@ -1,0 +1,53 @@
+<header class="header" >
+    <div class="header__logo" #headerlogo>
+
+
+        <img src="/assets/img/logo.png" class="header__imglogo" alt="Logo de Luz de Cristo">
+        <label for="burger" class="label__burger burger-items" #burger (click)="toggleSidebar()">
+            <div class="one burger-items"></div>
+            <div class="two burger-items"></div>
+            <div class="three burger-items"></div>
+        </label>
+    </div>
+    <div class="header__toggle active-element">
+        <!-- <div (click)="emitirEventoHola()">hola</div> -->
+        <!-- <label for="burger" class="label__burger burger-items" #burger>
+            <div class="one burger-items"></div>
+            <div class="two burger-items"></div>
+            <div class="three burger-items"></div>
+        </label> -->
+    </div>
+    <div class="header__perfil">
+            <!-- <img src="/assets/img/caret_down.svg"> -->
+            <div class="header__modal" #modalPerfil>
+                <div class="header__modalcover">
+                    <img src="/assets/img/perfil.svg" class="header__imgperfil">
+                    <span class="header__nameuser--modal">
+                      {{ usuarioConectado }}
+                    </span>
+                    <a href="#" class="header__logout" (click)="logout($event)">Cerrar sesión</a>
+                </div>
+                <div class="header__modallinks">
+                    <a routerLink="./dashboard"  class="header__link">
+                        <img src="/assets/img/perfilmodal.svg">
+                        Perfil
+                    </a>
+                    <a routerLink="./dashboard"  class="header__link">
+                        <img src="/assets/img/contact.svg">
+                        Contacto
+                    </a>
+                    <a routerLink="./dashboard"  class="header__link header__link--button">
+                        <img src="/assets/img/web.svg">
+                        Ir al Sitio
+                    </a>
+                </div>
+            </div>
+            <div class="header__nameuser m-lg-2">
+              Bienvenido {{ authService.usuarioConectado?.nomMesero | uppercase }}
+            </div>
+            <img src="/assets/img/perfil.svg" class="header__imgperfil pointer" alt="Imagen de usuario">
+
+    </div>
+</header>
+
+

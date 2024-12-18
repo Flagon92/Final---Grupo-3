@@ -1,0 +1,26 @@
+<form (ngSubmit)="login()" [formGroup]="loginForm">
+    <div class="login">
+        <div class="login__wrap">
+            <img src="/assets/img/logo.png" alt="">
+            <div class="login__input">
+                <input type="text" placeholder="Ingrese su usuario" formControlName="email">
+                <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(loginForm.get('email')!) }}</span>
+                </div>
+            </div>
+            <div class="login__input">
+
+                <input type="text" placeholder="Ingrese su contraseña" formControlName="password">
+                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(loginForm.get('password')!) }}</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-md mt-3 rounded-1">
+              Iniciar sesión
+            </button>
+            <!-- <br> -->
+
+        </div>
+    </div>
+</form>

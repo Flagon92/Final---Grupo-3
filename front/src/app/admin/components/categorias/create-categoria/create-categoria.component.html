@@ -1,0 +1,36 @@
+<div class="row">
+
+  <div class="col-10">
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="categoriaForm" >
+
+            <div class="row mb-3">
+              <div class="col">
+                  <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese nombre" formControlName="nombre" (blur)="validationService.cleanField($event, categoriaForm.get('nombre')!)">
+                  <div *ngIf="categoriaForm.get('nombre')?.invalid && categoriaForm.get('nombre')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(categoriaForm.get('nombre')!) }}</span>
+                  </div>
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese descrripción" formControlName="descripcion">
+                  <div *ngIf="categoriaForm.get('descripcion')?.invalid && categoriaForm.get('descripcion')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(categoriaForm.get('descripcion')!) }}</span>
+                  </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-md mt-4 rounded-1" (click)="createCategoria()">
+              <app-spinner spinner="button"></app-spinner>
+              Crear Categoría
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

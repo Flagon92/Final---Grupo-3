@@ -1,0 +1,13 @@
+<app-header />
+<div class="content">
+    <app-sidebar></app-sidebar>
+    <main [ngClass]="{'change-main':eventService.isSidebarOpen()}">
+        <div class="container-fluid">
+
+            <div class="title-page">
+                <h4>{{ title }}</h4>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+</div>

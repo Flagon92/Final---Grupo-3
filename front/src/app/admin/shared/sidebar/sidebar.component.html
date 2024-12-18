@@ -1,0 +1,96 @@
+
+  <div class="sidebar" #sidebar [ngClass]="{'change-sidebar':eventService.isSidebarOpen()}">
+
+    <ul class="menu">
+
+      @for (itemMenu of menu; track itemMenu; let idx = $index) {
+
+        <!-- [ngClass]="{ 'showSubmenu': submenu }" -->
+
+        <li class="menu_item" #menuItem >
+            <a [routerLink]="itemMenu.url" class="menu_link" #menuLink  routerLinkActive="active-menu">
+
+                <img [src]="itemMenu.icon" class="icon-menu">
+
+                {{ itemMenu.title }}
+
+                @if(itemMenu.submenu.length > 0){
+                  <img src="./assets/img/caret_down.svg" class="icon-dropdown">
+                }
+            </a>
+
+            @if( itemMenu.submenu.length > 0 ){
+
+              <ul class="submenu">
+
+                @for (subItemMenu of itemMenu.submenu; track subItemMenu) {
+                  <li [attr.data-menu]="subItemMenu.alias">
+                    <a [routerLink]="subItemMenu.url" class="menu_sublink"  routerLinkActive="active-menu">
+                        <span class="dot-menu"></span>
+                        {{ subItemMenu.title }}
+                    </a>
+                </li>
+                }
+
+            </ul>
+
+            }
+        </li>
+
+      }
+    </ul>
+</div>
+
+
+
+
+    <!-- <nav class="nav">
+
+        <ul class="dropdown" id="menu">
+
+            @for (itemMenu of menu; track itemMenu; let idx = $index) {
+
+                <li class="dropdown__list" #itemMenus (click)="clickItemMenu($event)">
+
+                    @if( itemMenu.submenu.length > 0 ){
+
+                        <a class="dropdown__link" >
+                            <picture>
+                                <img [src]="itemMenu.icon" class="dropdown__icon">
+                            </picture>
+                            <span class="dropdown__span">  {{ itemMenu.title }}  </span>
+
+                            <img src="./assets/img/down.svg" class="dropdown__arrow">
+                            <input type="checkbox"  class="dropdown__check"  [name]="itemMenu.tipomenu" #menuparent (change)="checkboxChange($event)">
+                        </a>
+
+                    } @else {
+
+                        <a [routerLink]="itemMenu.url" routerLinkActive="active-menu" class="dropdown__link">
+                            <picture>
+                                <img [src]="itemMenu.icon" class="dropdown__icon">
+                            </picture>
+                            <span class="dropdown__span">  {{ itemMenu.title }}  </span>
+                        </a>
+                    }
+
+                    <div class="dropdown__content">
+
+                        <ul class="dropdown__sub">
+
+                            @for (subItemMenu of itemMenu.submenu; track subItemMenu) {
+                                <li class="dropdown__li">
+                                    <a [routerLink]="subItemMenu.url"  [name] = "subItemMenu.tipomenu" #listachksidebarmenu routerLinkActive="active-menu" class="dropdown__anchor">{{ subItemMenu.title }}</a>
+                                </li>
+                            }
+                        </ul>
+
+                    </div>
+                </li>
+            }
+        </ul>
+
+    </nav> -->
+
+
+

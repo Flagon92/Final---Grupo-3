@@ -1,0 +1,34 @@
+<div class="row">
+
+  <div class="col-10">
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="categoriaEditForm" >
+
+            <div class="row mb-3">
+              <div class="col">
+                  <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese nombre" formControlName="nombre" (blur)="validationService.cleanField($event, categoriaEditForm.get('nombre')!)">
+                  <div *ngIf="categoriaEditForm.get('nombre')?.invalid && categoriaEditForm.get('nombre')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(categoriaEditForm.get('nombre')!) }}</span>
+                  </div>
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese descrripción" formControlName="descripcion">
+                  <div *ngIf="categoriaEditForm.get('descripcion')?.invalid && categoriaEditForm.get('descripcion')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(categoriaEditForm.get('descripcion')!) }}</span>
+                  </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-md mt-4 rounded-1" (click)="editarCategoria()">
+              <app-spinner spinner="button"></app-spinner>
+              Actualizar Categoria
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

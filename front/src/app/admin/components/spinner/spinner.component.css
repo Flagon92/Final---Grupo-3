@@ -1,0 +1,25 @@
+.spinner-button:after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-color: #ffffff transparent #ffffff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+/* .spinner-data {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+} */
+.spinner-data:after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid teal;
+  border-color: teal transparent teal transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}

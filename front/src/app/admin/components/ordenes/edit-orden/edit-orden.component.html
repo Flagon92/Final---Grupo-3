@@ -1,0 +1,50 @@
+<div class="row">
+
+  <div class="col-10">
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+
+
+          <form [formGroup]="ordenEditForm" >
+
+            <div class="item-orden d-flex gap-2 mb-5 align-items-center">
+              <h6 class="mb-0 text-primary">Id Mesa: </h6>
+              <h6 class="mb-0" *ngIf="orden"> {{ orden.idMesa }}</h6>
+            </div>
+
+            <div class="item-orden mb-5 align-items-center">
+              <h6 class="mb-0 text-primary">Platillos: </h6>
+              <h6 class="mb-0 mt-3" *ngIf="orden">
+                <div *ngFor="let plato of orden.platosSeleccionados" class="mb-2" >
+                  <small class="cantidad">{{plato.cantidad}}</small>
+                  <small>{{plato.nombre}}</small>
+                </div>
+              </h6>
+            </div>
+
+            <div class="item-orden d-flex gap-2 mb-5 align-items-center">
+              <h6 class="mb-0 text-primary">Total: </h6>
+              <h6 class="mb-0" *ngIf="orden"> S/. {{ orden.total }}</h6>
+            </div>
+
+            <div class="item-orden col-3 d-flex gap-2 mb-5 col-2 align-items-center">
+                <h6 class="mb-0 text-primary" *ngIf="orden">Estado: </h6>
+                <select formControlName="estado" class="form-control select-caret">
+                  <option value="Entregado" selected>Entregado</option>
+                  <option value="Cancelado" selected>Cancelado</option>
+                  <option value="Pendiente" selected>Pendiente</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-md mt-4 rounded-1" (click)="editarOrden()">
+              <app-spinner spinner="button"></app-spinner>
+              Actualizar Orden
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

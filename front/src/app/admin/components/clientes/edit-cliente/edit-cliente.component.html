@@ -1,0 +1,48 @@
+<div class="row">
+
+  <div class="col-10">
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="clienteEditForm" >
+
+            <div class="row mb-3">
+              <div class="col">
+                  <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese nombre" formControlName="nombre">
+                  <div *ngIf="clienteEditForm.get('nombre')?.invalid && clienteEditForm.get('nombre')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(clienteEditForm.get('nombre')!) }}</span>
+                  </div>
+                </div>
+                <div class="col">
+                  <input type="email" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese su correo" formControlName="correo">
+                  <div *ngIf="clienteEditForm.get('correo')?.invalid && clienteEditForm.get('correo')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(clienteEditForm.get('correo')!) }}</span>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-6">
+                <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese teléfono" formControlName="telefono">
+                <div *ngIf="clienteEditForm.get('telefono')?.invalid && clienteEditForm.get('telefono')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(clienteEditForm.get('telefono')!) }}</span>
+                </div>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese DNI" formControlName="dni">
+                <div *ngIf="clienteEditForm.get('dni')?.invalid && clienteEditForm.get('dni')?.touched">
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-md mt-4 rounded-1" (click)="editarCliente()">
+              <app-spinner spinner="button"></app-spinner>
+              Actualizar Cliente
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-2">
+    <input type="file" name="foto" (change)="onFileSelected($event)" #fileInput >
+    <img *ngIf="platillo" [src]="imagePreview ?? platillo.getImageUser" class="img-fluid pointer" (click)="onImageClick(fileInput)">
+    <a href="#" class="link-danger d-block text-center" #cancelLink (click)="cancelImage(cancelLink, $event)" *ngIf="selectedFile">Cancelar</a>
+    <button class="btn btn-primary d-none" (click)="onUpload()">Subir Imagen</button>
+  </div>
+  <div class="col-10">
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="platilloEditForm" >
+
+            <div class="row mb-3">
+              <div class="col">
+                  <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese nombre" formControlName="nombre" (blur)="validationService.cleanField($event, platilloEditForm.get('nombre')!)">
+                  <div *ngIf="platilloEditForm.get('nombre')?.invalid && platilloEditForm.get('nombre')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(platilloEditForm.get('nombre')!) }}</span>
+                  </div>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese descripción" formControlName="descripcion" (blur)="validationService.cleanField($event, platilloEditForm.get('descripcion')!)">
+                <div *ngIf="platilloEditForm.get('descripcion')?.invalid && platilloEditForm.get('descripcion')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(platilloEditForm.get('descripcion')!) }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-6">
+                <!-- <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese ingredientes" formControlName="ingredientes" (blur)="validationService.noSpaces($event, platilloEditForm.get('ingredientes')!)"> -->
+                <textarea class="form-control px-3 py-2 rounded-1" placeholder="Ingrese ingredientes" formControlName="ingredientes" (blur)="validationService.noSpaces($event, platilloEditForm.get('ingredientes')!)"></textarea>
+                <div *ngIf="platilloEditForm.get('ingredientes')?.invalid && platilloEditForm.get('ingredientes')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(platilloEditForm.get('ingredientes')!) }}</span>
+                </div>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese precio" formControlName="precio" (blur)="validationService.cleanField($event, platilloEditForm.get('precio')!)">
+                <div *ngIf="platilloEditForm.get('precio')?.invalid && platilloEditForm.get('precio')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(platilloEditForm.get('precio')!) }}</span>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-md mt-4 rounded-1" (click)="editarPlatillo()">
+              <app-spinner spinner="button"></app-spinner>Actualizar Platillo
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

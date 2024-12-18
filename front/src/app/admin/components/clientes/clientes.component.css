@@ -1,0 +1,18 @@
+.confirm-delete {
+  display: none;
+  background: #efefef;
+  padding: 2px 7px;
+  font-size: 13px;
+  border: 1px solid #c9c9c9;
+  border-radius: 2px;
+  position: absolute;
+  left: 137px;
+  bottom: 0;
+  top: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 25px;
+}
+.pointer {
+  cursor: pointer
+}

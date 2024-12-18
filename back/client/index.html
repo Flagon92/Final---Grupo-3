@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat en tiempo real</title>
+  <link rel="stylesheet" href="index.css">
+  <style>
+    * {
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      margin: 0;
+    }
+
+    button {
+      background-color: white;
+      color: black;
+      border: none;
+      cursor: pointer;
+    }
+
+    input {
+      padding: 0.1rem;
+      border: none;
+      color: black;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      background-color: rgb(255, 255, 255);
+      align-items: center;
+    }
+
+    .usuario {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      gap: 1rem;
+      background-color: rgb(255, 255, 255);
+    }
+
+    .enviar-usuario {
+      display: flex;
+      gap: 0.2rem;
+      flex-direction: column;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="usuario" id="usuario-div">
+    <img src="/uploads/logo.png" alt="">
+    <h2>Ingresar Usuario</h2>
+    <div class="enviar-usuario">
+      <input type="file" id="fileInput" accept="image/jpeg, image/jpg, image/png" style="display: none;">
+      <div id="file-perfil"
+        style="width: 220px; height: 220px; background-size: cover; background-image: url('https://i.pinimg.com/474x/31/ec/2c/31ec2ce212492e600b8de27f38846ed7.jpg'); cursor: pointer;">
+      </div>
+      <select name="rooms" id="roomSelect" style="color: black;">
+      </select>
+      <input id="usuario-input" type="text" required placeholder="Ingresa tu nombre">
+      <button id="registrar-usuario">Registrar</button>
+    </div>
+  </div>
+  <style>
+    .chat-content {
+      background-color: rgb(255, 255, 255);
+      border: solid rgb(0, 0, 0) 0.15rem;
+      border-radius: 1.5rem;
+      min-height: 90vh;
+      width: 100%;
+      max-width: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem;
+    }
+
+
+    .enviar-chat {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    input,
+    button {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: solid 0.1rem;
+    }
+
+    .chat {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .chat-user {
+      display: flex;
+      max-width: 400px;
+      gap: 0.5rem;
+    }
+
+    .active {
+      align-self: flex-end;
+    }
+
+    .disabled {
+      flex-direction: row-reverse;
+      align-self: start;
+    }
+
+    .active .chat-text {
+      background-color: white;
+      color: rgb(17, 17, 17);
+      text-align: end;
+      border: solid 0.1rem;
+    }
+
+    .active .user {
+      align-self: flex-end;
+    }
+
+    .chat-text {
+      max-width: max-content;
+      padding: 0.9rem 0.6rem;
+      background-color: rgb(31, 31, 31);
+      border-radius: 0.5rem;
+      word-wrap: break-word;
+    }
+
+    strong {
+      color: black;
+    }
+
+    option {
+      color: black;
+    }
+  </style>
+  <div class="chat-content">
+    <div class="chat" id="chat">
+    </div>
+    <div class="enviar-chat">
+      <input type="text" class="chat" id="chat-inputs">
+      <button class="enviar-button" id="button-chat">Enviar</button>
+    </div>
+  </div>
+  <style>
+    .chat-user-unique {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      gap: 0.5rem;
+    }
+  </style>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    const predefinedRooms = ["Mesa ID-01", "Mesa ID-02", "Mesa ID-03"];
+
+    // Referencia al elemento select
+    const roomSelect = document.getElementById("roomSelect");
+    const filePerfils = document.getElementById("file-perfil");
+    const fileInput = document.getElementById('fileInput');
+
+    filePerfils.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0]; // Obtiene el archivo seleccionado
+
+      if (file) {
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          filePerfils.style.backgroundImage = `url(${e.target.result})`; // Establece la imagen como fondo
+          filePerfils.style.backgroundSize = 'cover'; // Ajusta el tamaño
+          filePerfils.style.backgroundPosition = 'center'; // Centra la imagen
+          filePerfils.textContent = ''; // Limpia el texto
+        };
+
+        reader.readAsDataURL(file); // Lee el archivo como URL base64
+      } else {
+        filePerfil.style.backgroundImage = ''; // Quita la imagen si no hay archivo
+        filePerfil.textContent = 'Haz clic aquí para cargar una imagen'; // Vuelve a mostrar el texto
+      }
+    });
+
+    // Agregar opciones al select
+    predefinedRooms.forEach((room) => {
+      const option = document.createElement("option");
+      option.value = room;
+      option.textContent = room;
+      roomSelect.appendChild(option);
+    })
+
+
+    var usuario;
+
+    document.getElementById('registrar-usuario').addEventListener('click', () => {
+      usuario = document.getElementById('usuario-input').value;
+      const file = fileInput.files[0];
+      console.log(usuario)
+      if (roomSelect.value === "" || usuario.trim() === "") {
+        alert("Rellena todos los campos")
+        return
+      }
+
+      if (file) {
+        const reader = new FileReader();
+
+        // Asegúrate de que onloadend se ejecute correctamente
+        reader.onloadend = () => {
+          const imageData = reader.result.split(',')[1]; // Extraer la parte de la imagen en base64
+          const fileName = file.name;
+
+          // Obtener el valor del usuario y realizar las operaciones necesarias
+
+          const close = document.getElementById('usuario-div');
+          close.style.display = "none";
+
+          // Emitir el evento a través de socket.io
+          console.log(roomSelect.value)
+          console.log('Enviando datos al servidor...');
+          socket.emit('createUser', roomSelect.value, usuario, fileName, imageData);
+        };
+
+        // Comienza la lectura del archivo
+        reader.readAsDataURL(file);
+      } else {
+        // Mostrar un mensaje si no se seleccionó una imagen
+        alert("Agregar imagen")
+      }
+    });
+
+
+
+
+    document.getElementById('button-chat').addEventListener('click', () => {
+      console.log('funciona')
+      const msj = document.getElementById('chat-inputs').value
+      if (msj.trim() === "") {
+        return
+      }
+      socket.emit('chat', msj)
+      document.getElementById('chat-inputs').value = "";
+    })
+
+
+    socket.on('chat', (data) => {
+      const chat = document.getElementById('chat');
+      const bufferIMG = `data:image/jpeg;base64,${data.dataImg}`;
+      console.log(bufferIMG)
+      // Usar comillas en el atributo src y mejorar seguridad con innerHTML
+      chat.innerHTML += `
+    <div class="chat-user ${data.user === usuario ? "active" : "disabled"}">
+      <div class="chat-user-unique">
+        <div class="user"><strong>${data.user}</strong></div>
+      <div class="chat-text">
+        ${data.message}
+      </div>
+    </div>
+      
+      <img id="myImage" src="${bufferIMG}" alt="Imagen desde buffer" style="width: 50px; height: 50px; object-fit: cover; border-radius:50%;" />
+    </div>`;
+    });
+
+
+
+
+  </script>
+</body>
+
+</html>

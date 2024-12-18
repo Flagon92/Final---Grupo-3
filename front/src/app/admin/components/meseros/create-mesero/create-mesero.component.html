@@ -1,0 +1,83 @@
+<div class="row">
+  <!-- <div class="col-2">
+      <input type="file" name="foto" (change)="onFileSelected($event)" #fileInput>
+      <img [src]="imagePreview ?? './assets/img/defaultuser.jpg'" class="img-fluid pointer" (click)="onImageClick(fileInput)">
+      <a href="#" class="link-danger d-block text-center" #cancelLink (click)="cancelImage(cancelLink, $event)" *ngIf="imagePreview">Cancelar</a>
+      <button class="btn btn-primary d-none" (click)="onUpload()">Subir Imagen</button>
+  </div> -->
+  <div class="col-10">
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="meseroForm" >
+            <div class="row mb-3">
+              <div class="col">
+                  <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese nombre" formControlName="nomMesero">
+                  <div *ngIf="meseroForm.get('nomMesero')?.invalid && meseroForm.get('nomMesero')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(meseroForm.get('nomMesero')!) }}</span>
+                  </div>
+                </div>
+              <div class="col">
+                <input type="email" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese su email" formControlName="email">
+                <div *ngIf="meseroForm.get('email')?.invalid && meseroForm.get('email')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(meseroForm.get('email')!) }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-4">
+                <div class="password-wrap position-relative">
+                  <p class="text-primary">&nbsp;</p>
+                  <input [type]=" eyePassword ? 'text': 'password' " class="form-control px-3 py-2 rounded-1" placeholder="Ingrese su contraseña" formControlName="password">
+                  <span>
+                    <img src="../../../../../assets/img/eye-slash.svg" *ngIf="!eyePassword" class="eye-password position-relative" style="top:21px">
+                    <img src="../../../../../assets/img/eye.svg" *ngIf="eyePassword" class="eye-password position-relative" style="top:21px">
+                  </span>
+                </div>
+                <div *ngIf="meseroForm.get('password')?.invalid && meseroForm.get('password')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(meseroForm.get('password')!) }}</span>
+                </div>
+
+              </div>
+              <div class="col-4">
+                <!-- <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese servicio u oficio" formControlName="turno" (blur)="validationService.cleanField($event, meseroForm.get('turno')!)"> -->
+                <p class="text-primary">Elija turno</p>
+                <select formControlName="turno" class="form-control select-caret px-3 py-2 rounded-1">
+                  <option value="">Elija un turno</option>
+                  <option *ngFor="let turno of turnos" [value]="turno">{{ turno }}</option>
+                </select>
+
+                <div *ngIf="meseroForm.get('turno')?.invalid && meseroForm.get('turno')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(meseroForm.get('turno')!) }}</span>
+                </div>
+              </div>
+
+              <div class="col-4">
+                <!-- <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese teléfono" formControlName="activo" (blur)="validationService.noSpaces($event, meseroForm.get('activo')!)"> -->
+                <p class="text-primary">Esta activo?</p>
+                <select formControlName="activo" class="form-control select-caret px-3 py-2 rounded-1">
+                  <option value="">Elija</option>
+                  <option *ngFor="let act of activo" [value]="act">{{ act ? 'SI': 'NO' }}</option>
+
+                </select>
+                <div *ngIf="meseroForm.get('activo')?.invalid && meseroForm.get('activo')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(meseroForm.get('activo')!) }}</span>
+                </div>
+              </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-md mt-4 rounded-1" (click)="crearMesero()">
+              <app-spinner spinner="button"></app-spinner>
+              Crear Mesero
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

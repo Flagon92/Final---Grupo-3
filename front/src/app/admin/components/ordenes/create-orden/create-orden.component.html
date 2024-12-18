@@ -1,0 +1,67 @@
+<div class="row">
+
+  <div class="col-10">
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="ordenesForm" >
+
+            <div class="row mb-3">
+              <div class="col-6">
+                  <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese ID mesa" formControlName="idMesa" (blur)="validationService.cleanField($event, ordenesForm.get('idMesa')!)">
+                  <div *ngIf="ordenesForm.get('idMesa')?.invalid && ordenesForm.get('idMesa')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(ordenesForm.get('idMesa')!) }}</span>
+                  </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                  <div *ngIf="!ordenCreada">
+                    <div formArrayName="platosSeleccionados">
+                      <div *ngFor="let grupo of platosSeleccionados.controls; let i = index" [formGroupName]="i">
+
+                        <div class="wrap-plato d-flex gap-3">
+                          <div>
+                            <p class="text-primary">Plato</p>
+                            <select formControlName="idPlatillo" class="form-control select-caret py-2">
+                              <option value="">Elija un plato</option>
+                              <option *ngFor="let platillo of platillos" [value]="platillo.id">{{ platillo.nombre }}</option>
+                            </select>
+                          </div>
+                          <div>
+                            <p class="text-primary">Elija cantidad</p>
+                            <input formControlName="cantidad" type="number" class="form-control px-3 py-2 rounded-1" min="1" placeholder="Cantidad" />
+                          </div>
+                          <div *ngIf="ordenesForm.get('cantidad')?.invalid && ordenesForm.get('cantidad')?.touched">
+                            <span class="text-danger form-error-msg">{{ validationService.errorMessage(ordenesForm.get('cantidad')!) }}</span>
+                          </div>
+
+                          <button type="button" (click)="eliminarPlato(i)" class="btn btn-danger btn-sm mt-4 rounded-1">Eliminar</button>
+
+                        </div>
+                        <br>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" (click)="agregarPlato()" class="btn btn-success btn-sm rounded-1"> + Agregar Plato</button>
+
+
+                  <div *ngIf="ordenesForm.get('correo')?.invalid && ordenesForm.get('correo')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(ordenesForm.get('correo')!) }}</span>
+                  </div>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary btn-md mt-4 rounded-1" (click)="crearOrden()">
+              <app-spinner spinner="button"></app-spinner>
+              Crear nueva orden
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

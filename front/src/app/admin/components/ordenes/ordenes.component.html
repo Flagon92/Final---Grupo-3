@@ -1,0 +1,64 @@
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+
+          @if(!ordenes){
+
+            <div class="wrap-loading">
+              <app-spinner spinner="data"></app-spinner>
+              <h6 class="mb-0"> Cargando datos...</h6>
+            </div>
+          } @else {
+
+              <thead>
+                  <tr>
+                      <!-- <th>Foto</th> -->
+                      <th>Id Mesa</th>
+                      <th>Platos</th>
+                      <th>Estado</th>
+                      <th>Total</th>
+                      <th>Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+
+                  @for( orden of ordenes; let i = $index; track i  ){
+                      <tr>
+                          <!-- <td>
+                            <img [src]="orden.getImageUser" class="img-fluid">
+                          </td> -->
+                          <td>{{ orden.idMesa }}</td>
+                          <td>
+                            <div >
+                              <div class="wrap-plato" *ngFor="let plato of orden.platosSeleccionados">
+                                <span class="cantidad">{{ plato.cantidad }}</span>
+                                <span> {{ plato.nombre }}</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td>{{ orden.estado }}</td>
+                          <td>S/ {{ orden.total }}</td>
+                          <td class="position-relative">
+                            <a [routerLink]="['../editar-orden', orden.idMesa]" class="text-success text-decoration-none pointer me-3">Editar</a>
+                            <a href="#" class="text-danger text-decoration-none me-3" (click)="deleteOrden($event, orden._id)">Eliminar</a>
+                            <div class="confirm-delete" #wrapDelete [id]="orden._id">
+                              <span>Confirmar:</span>
+                              <span class="mx-1 text-danger pointer" (click)="confirmDelete()">SI</span>
+                              <span class="text-primary">|</span>
+                              <span class="mx-1 text-primary pointer" (click)="cancelDelete()">NO</span>
+                            </div>
+                          </td>
+                      </tr>
+                  }
+
+
+              </tbody>
+          }
+
+      </table>
+    </div>
+  </div>
+</div>
+

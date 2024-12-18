@@ -1,0 +1,51 @@
+<div class="row">
+
+  <div class="col-7">
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="clienteForm" >
+
+            <div class="row mb-3">
+              <div class="col">
+                  <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese nombre" formControlName="nombre" (blur)="validationService.cleanField($event, clienteForm.get('nombre')!)">
+                  <div *ngIf="clienteForm.get('nombre')?.invalid && clienteForm.get('nombre')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(clienteForm.get('nombre')!) }}</span>
+                  </div>
+                </div>
+                <div class="col">
+                  <input type="email" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese su correo" formControlName="correo">
+                  <div *ngIf="clienteForm.get('correo')?.invalid && clienteForm.get('correo')?.touched">
+                    <span class="text-danger form-error-msg">{{ validationService.errorMessage(clienteForm.get('correo')!) }}</span>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-6">
+                <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese teléfono" formControlName="telefono" (blur)="validationService.noSpaces($event, clienteForm.get('telefono')!)">
+                <div *ngIf="clienteForm.get('telefono')?.invalid && clienteForm.get('telefono')?.touched">
+                  <span class="text-danger form-error-msg">{{ validationService.errorMessage(clienteForm.get('telefono')!) }}</span>
+                </div>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control px-3 py-2 rounded-1" placeholder="Ingrese DNI" formControlName="dni">
+                <div *ngIf="clienteForm.get('dni')?.invalid && clienteForm.get('dni')?.touched">
+                  <!-- <span class="text-danger form-error-msg">{{ validationService.errorMessage(clienteForm.get('dni')!) }}</span> -->
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-md mt-4 rounded-1" (click)="crearCliente()">
+              <app-spinner spinner="button"></app-spinner>
+              Crear Cliente
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

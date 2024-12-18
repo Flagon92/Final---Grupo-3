@@ -1,0 +1,57 @@
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+
+          @if(!platillos){
+
+            <div class="wrap-loading">
+              <app-spinner spinner="data"></app-spinner>
+              <h6 class="mb-0"> Cargando datos...</h6>
+            </div>
+          } @else {
+
+              <thead>
+                  <tr>
+                      <th>Foto</th>
+                      <th>Nombre</th>
+                      <th>Descripción</th>
+                      <th>Ingredientes</th>
+                      <th>Precio</th>
+                      <th>Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+
+                  @for( platillo of platillos; let i = $index; track i  ){
+                      <tr>
+                          <td>
+                            <img [src]="platillo.getImageUser" class="img-fluid">
+                          </td>
+                          <td style="width:15%">{{ platillo.nombre }}</td>
+                          <td style="width:18%">{{ platillo.descripcion }}</td>
+                          <td style="width:18%">{{ platillo.ingredientes }}</td>
+                          <td>S/. {{ platillo.precio }}</td>
+                          <td class="position-relative">
+                            <a [routerLink]="['../editar-platillo', platillo.id]" class="text-success text-decoration-none pointer me-3">Editar</a>
+                            <a href="#" class="text-danger text-decoration-none me-3" (click)="deleteUser($event, platillo.id)">Eliminar</a>
+                            <div class="confirm-delete" #wrapDelete [id]="platillo.id">
+                              <span>Confirmar:</span>
+                              <span class="mx-1 text-danger pointer" (click)="confirmDelete()">SI</span>
+                              <span class="text-primary">|</span>
+                              <span class="mx-1 text-primary pointer" (click)="cancelDelete()">NO</span>
+                            </div>
+                          </td>
+                      </tr>
+                  }
+
+
+              </tbody>
+          }
+
+      </table>
+    </div>
+  </div>
+</div>
+
